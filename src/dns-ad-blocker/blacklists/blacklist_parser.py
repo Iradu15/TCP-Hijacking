@@ -13,13 +13,12 @@ def get_adservers_list(blacklist_path):
 
     return domains_list
 
-# functie care va genera un raspuns care redirectioneaza
-# request-ul spre 0.0.0.0 / :: 
 def get_ad_blocker_response(DNS_packet):
+    """Generates an answer that redirects it to 0.0.0.0 / :: """
     with open("./src/dns-ad-blocker/blacklists/blocked_domains.txt", "a") as blocked:
         blocked.write("Blocked: " + DNS_packet.qd.qname.decode("utf-8") + "\n")
     
-    # daca request-ul este de tip AAAA asteapta o adresa IPv6
+    # if AAAA type then IPv6 address is expected
     rdata_addresss = "0.0.0.0" if DNS_packet.qd.qtype != 28 else "::"
 
     DNS_answer = DNSRR(

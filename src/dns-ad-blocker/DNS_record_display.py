@@ -1,16 +1,22 @@
 def interpret_DNS_qtype(type):
-    if type == 1:
-        return "A"
-    elif type == 2:
-        return "NS"
-    elif type == 5:
-        return "CNAME"
-    elif type == 15:
-        return "MX"
-    elif type == 28:
-        return "AAAA"
-    else:
-        return "UNKNOWN"
+    """
+    A: domain name -> ipv4
+    NS: domain name -> authoritative nameservers
+    CNAME: domain name -> domain name 
+    """
+    match type:
+        case 1:
+            return "A"
+        case 2:
+            return "NS"
+        case 5:
+            return "CNAME"
+        case 15:
+            return "MX"
+        case 28:
+            return "AAAA"
+        case _:
+            return "UNKNOWN"
 
 
 def display_DNS_query(DNS_packet):
@@ -42,25 +48,25 @@ def display_DNS_response(DNS_packet):
     print("-------------------------")
     print("|| Questions: ")
     print("-------------------------")
-    if DNS_packet.qd is not None:
+    if DNS_packet.qd:
         DNS_packet.qd.show()
 
     print("-------------------------")
     print("|| Answers: ")
     print("-------------------------")
-    if DNS_packet.an is not None:
+    if DNS_packet.an:
         DNS_packet.an.show()
 
     print("-------------------------")
     print("|| Authority: ")
     print("-------------------------")
-    if DNS_packet.ns is not None:
+    if DNS_packet.ns:
         DNS_packet.ns.show()
 
     print("-------------------------")
     print("|| Additional: ")
     print("-------------------------")
-    if DNS_packet.ar is not None:
+    if DNS_packet.ar:
         DNS_packet.ar.show()
     
     print("=========================")
